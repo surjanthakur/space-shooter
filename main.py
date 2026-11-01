@@ -20,6 +20,8 @@ space_img_surface = pygame.image.load(
 
 spaceship_img_surface = pygame.image.load("./assets/images/spaceship.png")
 
+# rects
+spaceship_rect = spaceship_img_surface.get_rect(midbottom=(350, 800))
 
 while game_run:
     for event in pygame.event.get():
@@ -27,8 +29,14 @@ while game_run:
             game_run = False
             sys.exit()
 
+        if event.type == pygame.KEYDOWN and pygame.K_LEFT:
+            pass
+
+        if event.type == pygame.KEYDOWN and pygame.K_RIGHT:
+            pass
+
     screen.blit(space_img_surface, (0, 0))
-    screen.blit(spaceship_img_surface, (200, 700))
+    screen.blit(spaceship_img_surface, spaceship_rect)
     pygame.display.update()
     clock.tick(60)
 
