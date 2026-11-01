@@ -18,10 +18,18 @@ space_img_surface = pygame.image.load(
     "./assets/images/space_background.png"
 ).convert_alpha()
 
-spaceship_img_surface = pygame.image.load("./assets/images/spaceship.png")
+spaceship_img_surface = pygame.image.load(
+    "./assets/images/spaceship.png"
+).convert_alpha()
+
+meteor_01_surface = pygame.image.load("./assets/images/meteor_01.png").convert_alpha()
+meteor_02_surface = pygame.image.load("./assets/images/meteor_02.png").convert_alpha()
+meteor_03_surface = pygame.image.load("./assets/images/asteroid_03.png").convert_alpha()
+meteor_04_surface = pygame.image.load("./assets/images/asteroid_04.png").convert_alpha()
 
 # rects
 spaceship_rect = spaceship_img_surface.get_rect(midbottom=(350, 800))
+
 
 while game_run:
     for event in pygame.event.get():
@@ -43,7 +51,13 @@ while game_run:
             spaceship_rect.y += 20
 
     screen.blit(space_img_surface, (0, 0))
+
     screen.blit(spaceship_img_surface, spaceship_rect)
+
+    screen.blit(meteor_01_surface, (0, 0))
+    screen.blit(meteor_02_surface, (180, 0))
+    screen.blit(meteor_03_surface, (200, 500))
+    screen.blit(meteor_04_surface, (450, 400))
     pygame.display.update()
     clock.tick(60)
 
