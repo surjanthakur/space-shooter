@@ -11,8 +11,10 @@ pygame.display.set_caption(
 )
 screen = pygame.display.set_mode((1000, 1000))
 clock = pygame.time.Clock()
-
 game_run = True
+
+
+space_background_surface = pygame.image.load("./assets/images/space_background.png")
 
 
 while game_run:
