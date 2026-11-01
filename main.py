@@ -9,7 +9,7 @@ pygame.init()
 pygame.display.set_caption(
     title="space shooter game", icontitle="./assets/images/spaceship.png"
 )
-screen = pygame.display.set_mode((1000, 1000))
+screen = pygame.display.set_mode((800, 1000))
 clock = pygame.time.Clock()
 game_run = True
 
@@ -18,6 +18,8 @@ space_img_surface = pygame.image.load(
     "./assets/images/space_background.png"
 ).convert_alpha()
 
+spaceship_img_surface = pygame.image.load()
+
 
 while game_run:
     for event in pygame.event.get():
@@ -25,8 +27,7 @@ while game_run:
             game_run = False
             sys.exit()
 
-    screen.fill("red")
-
+    screen.blit(space_img_surface, (0, 0))
     pygame.display.update()
     clock.tick(60)
 
