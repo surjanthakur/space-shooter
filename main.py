@@ -18,7 +18,7 @@ space_img_surface = pygame.image.load(
     "./assets/images/space_background.png"
 ).convert_alpha()
 
-spaceship_img_surface = pygame.image.load()
+spaceship_img_surface = pygame.image.load("./assets/images/spaceship.png")
 
 
 while game_run:
@@ -28,6 +28,7 @@ while game_run:
             sys.exit()
 
     screen.blit(space_img_surface, (0, 0))
+    screen.blit(spaceship_img_surface, (200, 700))
     pygame.display.update()
     clock.tick(60)
 
