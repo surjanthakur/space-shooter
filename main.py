@@ -13,8 +13,10 @@ screen = pygame.display.set_mode((1000, 1000))
 clock = pygame.time.Clock()
 game_run = True
 
-
-space_background_surface = pygame.image.load("./assets/images/space_background.png")
+# surfaces
+space_img_surface = pygame.image.load(
+    "./assets/images/space_background.png"
+).convert_alpha()
 
 
 while game_run:
@@ -25,8 +27,8 @@ while game_run:
 
     screen.fill("red")
 
-    clock.tick(60)
     pygame.display.update()
+    clock.tick(60)
 
 
 pygame.quit()
