@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 
 # pygame setup
@@ -17,6 +19,7 @@ while game_run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_run = False
+            sys.exit()
 
     screen.fill("red")
 
