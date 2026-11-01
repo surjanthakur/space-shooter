@@ -20,3 +20,6 @@ while game_run:
 
     clock.tick(60)
     pygame.display.update()
+
+
+pygame.quit()
