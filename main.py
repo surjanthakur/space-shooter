@@ -25,15 +25,22 @@ spaceship_rect = spaceship_img_surface.get_rect(midbottom=(350, 800))
 
 while game_run:
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             game_run = False
             sys.exit()
 
-        if event.type == pygame.KEYDOWN and pygame.K_LEFT:
-            pass
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+            spaceship_rect.x -= 20
 
-        if event.type == pygame.KEYDOWN and pygame.K_RIGHT:
-            pass
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+            spaceship_rect.x += 20
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+            spaceship_rect.y -= 20
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
+            spaceship_rect.y += 20
 
     screen.blit(space_img_surface, (0, 0))
     screen.blit(spaceship_img_surface, spaceship_rect)
