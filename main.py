@@ -5,6 +5,9 @@ import pygame
 # pygame setup
 pygame.init()
 
+# sounds
+laser_sound = pygame.mixer.Sound("./assets/audio/shot.wav")
+
 
 pygame.display.set_caption(
     title="space shooter game", icontitle="./assets/images/spaceship.png"
@@ -66,6 +69,7 @@ while game_run:
                 laser_rects.append(
                     fire_laser_surface.get_rect(midbottom=(wing_x, spaceship_rect.top))
                 )
+            laser_sound.play()
 
     spaceship_rect.clamp_ip(screen.get_rect())
 
