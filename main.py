@@ -1,5 +1,3 @@
-import sys
-
 import pygame
 
 # pygame setup
@@ -7,6 +5,7 @@ pygame.init()
 
 # sounds
 laser_sound = pygame.mixer.Sound("./assets/audio/shot.wav")
+background_sound = pygame.mixer.Sound("./assets/audio/music2.mp3")
 
 
 pygame.display.set_caption(
@@ -15,6 +14,7 @@ pygame.display.set_caption(
 screen = pygame.display.set_mode((800, 1000))
 clock = pygame.time.Clock()
 game_run = True
+game_started = False
 
 # surfaces
 space_img_surface = pygame.image.load(
@@ -40,54 +40,80 @@ spaceship_rect = spaceship_img_surface.get_rect(midbottom=(350, 800))
 meteor_1_rect = meteor_01_surface.get_rect(topleft=(0, 10))
 laser_rects = []
 
+menu_font = pygame.font.SysFont(None, 56)
+menu_labels = ("Start New Game", "Exit")
+menu_rects = [
+    menu_font.render(label, True, "white").get_rect(
+        center=(screen.get_width() // 2, screen.get_height() // 2 + offset)
+    )
+    for label, offset in zip(menu_labels, (-40, 40))
+]
 
 while game_run:
     for event in pygame.event.get():
-
         if event.type == pygame.QUIT:
             game_run = False
-            sys.exit()
-
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-            spaceship_rect.x -= 60
-
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-            spaceship_rect.x += 60
-
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
-            spaceship_rect.y -= 60
-
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
-            spaceship_rect.y += 60
-
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-            wing_positions = (
-                spaceship_rect.left + spaceship_rect.width // 8,
-                spaceship_rect.right - spaceship_rect.width // 8,
-            )
-            for wing_x in wing_positions:
-                laser_rects.append(
-                    fire_laser_surface.get_rect(midbottom=(wing_x, spaceship_rect.top))
+        elif (
+            not game_started
+            and event.type == pygame.MOUSEBUTTONDOWN
+            and event.button == 1
+        ):
+            if menu_rects[0].collidepoint(event.pos):
+                game_started = True
+                background_sound.play(loops=-1)
+            elif menu_rects[1].collidepoint(event.pos):
+                game_run = False
+        elif game_started and event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                spaceship_rect.x -= 60
+            elif event.key == pygame.K_RIGHT:
+                spaceship_rect.x += 60
+            elif event.key == pygame.K_UP:
+                spaceship_rect.y -= 60
+            elif event.key == pygame.K_DOWN:
+                spaceship_rect.y += 60
+            elif event.key == pygame.K_f:
+                wing_positions = (
+                    spaceship_rect.left + spaceship_rect.width // 8,
+                    spaceship_rect.right - spaceship_rect.width // 8,
                 )
-            laser_sound.play()
+                for wing_x in wing_positions:
+                    laser_rects.append(
+                        fire_laser_surface.get_rect(
+                            midbottom=(wing_x, spaceship_rect.top)
+                        )
+                    )
+                laser_sound.play()
 
-    spaceship_rect.clamp_ip(screen.get_rect())
+    if not game_run:
+        break
 
     screen.blit(space_img_surface, (0, 0))
 
-    # spaceship surface image
-    screen.blit(spaceship_img_surface, spaceship_rect)
+    if game_started:
+        spaceship_rect.clamp_ip(screen.get_rect())
 
-    # meteor 1 surface image
-    meteor_1_rect.y += 5
-    if meteor_1_rect.y >= screen.get_height():
-        meteor_1_rect.y = 0
-    screen.blit(meteor_01_surface, meteor_1_rect)
+        # spaceship surface image
+        screen.blit(spaceship_img_surface, spaceship_rect)
 
-    for laser_rect in laser_rects:
-        laser_rect.y -= 10
-        screen.blit(fire_laser_surface, laser_rect)
-    laser_rects = [laser_rect for laser_rect in laser_rects if laser_rect.bottom > 0]
+        # meteor 1 surface image
+        meteor_1_rect.y += 5
+        if meteor_1_rect.y >= screen.get_height():
+            meteor_1_rect.y = 0
+        screen.blit(meteor_01_surface, meteor_1_rect)
+
+        for laser_rect in laser_rects:
+            laser_rect.y -= 10
+            screen.blit(fire_laser_surface, laser_rect)
+        laser_rects = [
+            laser_rect for laser_rect in laser_rects if laser_rect.bottom > 0
+        ]
+    else:
+        mouse_position = pygame.mouse.get_pos()
+        for label, menu_rect in zip(menu_labels, menu_rects):
+            color = "yellow" if menu_rect.collidepoint(mouse_position) else "white"
+            text_surface = menu_font.render(label, True, color)
+            screen.blit(text_surface, menu_rect)
 
     # al last update all changes and display screen
     pygame.display.update()
