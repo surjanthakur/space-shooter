@@ -30,6 +30,8 @@ meteor_04_surface = pygame.image.load("./assets/images/asteroid_04.png").convert
 # rects
 spaceship_rect = spaceship_img_surface.get_rect(midbottom=(350, 800))
 
+meteor_1_rect = meteor_01_surface.get_rect(topleft=(0, 10))
+
 
 while game_run:
     for event in pygame.event.get():
@@ -52,12 +54,11 @@ while game_run:
 
     screen.blit(space_img_surface, (0, 0))
 
+    # spaceship surface image
     screen.blit(spaceship_img_surface, spaceship_rect)
 
-    screen.blit(meteor_01_surface, (0, 0))
-    screen.blit(meteor_02_surface, (180, 0))
-    screen.blit(meteor_03_surface, (200, 500))
-    screen.blit(meteor_04_surface, (450, 400))
+    # meteor 1 surface image
+    screen.blit(meteor_01_surface, meteor_1_rect)
     pygame.display.update()
     clock.tick(60)
 
