@@ -22,6 +22,8 @@ spaceship_img_surface = pygame.image.load(
     "./assets/images/spaceship.png"
 ).convert_alpha()
 
+fire_lasers = pygame.image.load("./assets/images/Rocket_Effect_01.png").convert_alpha()
+
 meteor_01_surface = pygame.image.load("./assets/images/meteor_01.png").convert_alpha()
 meteor_02_surface = pygame.image.load("./assets/images/meteor_02.png").convert_alpha()
 meteor_03_surface = pygame.image.load("./assets/images/asteroid_03.png").convert_alpha()
@@ -41,16 +43,20 @@ while game_run:
             sys.exit()
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
-            spaceship_rect.x -= 20
+            spaceship_rect.x -= 60
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-            spaceship_rect.x += 20
+            spaceship_rect.x += 60
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
-            spaceship_rect.y -= 20
+            spaceship_rect.y -= 60
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
-            spaceship_rect.y += 20
+            spaceship_rect.y += 60
+
+        # when press F key on keyboard fire_laser effect from the space ship
+
+    spaceship_rect.clamp_ip(screen.get_rect())
 
     screen.blit(space_img_surface, (0, 0))
 
