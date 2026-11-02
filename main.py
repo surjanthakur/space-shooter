@@ -69,26 +69,46 @@ while game_run:
             # if press quit then close the game
             elif menu_rects[1].collidepoint(event.pos):
                 game_run = False
+                # check if game started and keyboard key pressed.
         elif game_started and event.type == pygame.KEYDOWN:
+
+            # if left key
             if event.key == pygame.K_LEFT:
+                # move space ship to left side
                 spaceship_rect.x -= 60
+
+                # if right key
             elif event.key == pygame.K_RIGHT:
+                # move space ship to right side
                 spaceship_rect.x += 60
+
+                # if up key
             elif event.key == pygame.K_UP:
+                # move space ship to top
                 spaceship_rect.y -= 60
+
+                # if down key
             elif event.key == pygame.K_DOWN:
+                # move space ship  to down
                 spaceship_rect.y += 60
+
+                # if press F key
             elif event.key == pygame.K_f:
+                # get wings positions
                 wing_positions = (
+                    # left side
                     spaceship_rect.left + spaceship_rect.width // 8,
+                    # right side
                     spaceship_rect.right - spaceship_rect.width // 8,
                 )
                 for wing_x in wing_positions:
+                    # set laser positions
                     laser_rects.append(
                         fire_laser_surface.get_rect(
                             midbottom=(wing_x, spaceship_rect.top)
                         )
                     )
+                    # play sound after positions set
                 laser_sound.play()
 
     if not game_run:
