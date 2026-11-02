@@ -3,18 +3,21 @@ import pygame
 # pygame setup
 pygame.init()
 
-# sounds
-laser_sound = pygame.mixer.Sound("./assets/audio/shot.wav")
-background_sound = pygame.mixer.Sound("./assets/audio/music2.mp3")
-
-
 pygame.display.set_caption(
     title="space shooter game", icontitle="./assets/images/spaceship.png"
 )
+
 screen = pygame.display.set_mode((800, 1000))
 clock = pygame.time.Clock()
 game_run = True
 game_started = False
+menu_font = pygame.font.SysFont(None, 56)
+menu_labels = ("Start New Game ", "Exit")
+
+# sounds
+laser_sound = pygame.mixer.Sound("./assets/audio/shot.wav")
+background_sound = pygame.mixer.Sound("./assets/audio/music2.mp3")
+
 
 # surfaces
 space_img_surface = pygame.image.load(
@@ -36,12 +39,8 @@ meteor_04_surface = pygame.image.load("./assets/images/asteroid_04.png").convert
 
 # rects
 spaceship_rect = spaceship_img_surface.get_rect(midbottom=(350, 800))
-
 meteor_1_rect = meteor_01_surface.get_rect(topleft=(0, 10))
 laser_rects = []
-
-menu_font = pygame.font.SysFont(None, 56)
-menu_labels = ("Start New Game", "Exit")
 menu_rects = [
     menu_font.render(label, True, "white").get_rect(
         center=(screen.get_width() // 2, screen.get_height() // 2 + offset)
@@ -49,8 +48,12 @@ menu_rects = [
     for label, offset in zip(menu_labels, (-40, 40))
 ]
 
+# run game base on game_run condition
 while game_run:
+    # get pygame events
     for event in pygame.event.get():
+
+        # if quit game close the game engine
         if event.type == pygame.QUIT:
             game_run = False
         elif (
@@ -58,9 +61,12 @@ while game_run:
             and event.type == pygame.MOUSEBUTTONDOWN
             and event.button == 1
         ):
+            # if press on [start new game] start the game
             if menu_rects[0].collidepoint(event.pos):
                 game_started = True
                 background_sound.play(loops=-1)
+
+            # if press quit then close the game
             elif menu_rects[1].collidepoint(event.pos):
                 game_run = False
         elif game_started and event.type == pygame.KEYDOWN:
