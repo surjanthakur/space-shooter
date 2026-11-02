@@ -58,7 +58,12 @@ while game_run:
     screen.blit(spaceship_img_surface, spaceship_rect)
 
     # meteor 1 surface image
+    meteor_1_rect.y += 5
+    if meteor_1_rect.y >= screen.get_height():
+        meteor_1_rect.y = 0
     screen.blit(meteor_01_surface, meteor_1_rect)
+
+    # al last update all changes and display screen
     pygame.display.update()
     clock.tick(60)
 
