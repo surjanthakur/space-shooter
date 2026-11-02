@@ -22,7 +22,9 @@ spaceship_img_surface = pygame.image.load(
     "./assets/images/spaceship.png"
 ).convert_alpha()
 
-fire_lasers = pygame.image.load("./assets/images/Rocket_Effect_01.png").convert_alpha()
+fire_laser_surface = pygame.image.load("./assets/images/bullet.png").convert_alpha()
+
+fire_laser_surface = pygame.transform.flip(fire_laser_surface, False, True)
 
 meteor_01_surface = pygame.image.load("./assets/images/meteor_01.png").convert_alpha()
 meteor_02_surface = pygame.image.load("./assets/images/meteor_02.png").convert_alpha()
@@ -33,6 +35,7 @@ meteor_04_surface = pygame.image.load("./assets/images/asteroid_04.png").convert
 spaceship_rect = spaceship_img_surface.get_rect(midbottom=(350, 800))
 
 meteor_1_rect = meteor_01_surface.get_rect(topleft=(0, 10))
+laser_rects = []
 
 
 while game_run:
@@ -54,7 +57,15 @@ while game_run:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
             spaceship_rect.y += 60
 
-        # when press F key on keyboard fire_laser effect from the space ship
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+            wing_positions = (
+                spaceship_rect.left + spaceship_rect.width // 8,
+                spaceship_rect.right - spaceship_rect.width // 8,
+            )
+            for wing_x in wing_positions:
+                laser_rects.append(
+                    fire_laser_surface.get_rect(midbottom=(wing_x, spaceship_rect.top))
+                )
 
     spaceship_rect.clamp_ip(screen.get_rect())
 
@@ -68,6 +79,11 @@ while game_run:
     if meteor_1_rect.y >= screen.get_height():
         meteor_1_rect.y = 0
     screen.blit(meteor_01_surface, meteor_1_rect)
+
+    for laser_rect in laser_rects:
+        laser_rect.y -= 10
+        screen.blit(fire_laser_surface, laser_rect)
+    laser_rects = [laser_rect for laser_rect in laser_rects if laser_rect.bottom > 0]
 
     # al last update all changes and display screen
     pygame.display.update()
